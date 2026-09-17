@@ -37,13 +37,18 @@
             <p id="auth-message" class="muted">Sign in to continue to your routine.</p>
           </div>
           <form id="auth-form" class="auth-form">
-            <label for="email">Email address
+            <label id="email-label" for="email">Email address
               <input id="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required />
             </label>
-            <label for="password">Password
+            <label for="password" id="password-label">Password
               <span class="password-field">
                 <input id="password" type="password" autocomplete="current-password" minlength="6" placeholder="Enter your password" required />
                 <button id="password-toggle" class="password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+              </span>
+            </label>
+            <label id="confirm-password-label" for="confirm-password" style="display:none">Confirm new password
+              <span class="password-field">
+                <input id="confirm-password" type="password" autocomplete="new-password" minlength="6" placeholder="Enter your new password again" />
               </span>
             </label>
             <button id="auth-submit" class="button button-primary button-wide" type="submit">Sign in</button>
@@ -53,7 +58,7 @@
             <button id="auth-reset" class="text-button" type="button">Forgot password?</button>
           </div>
           <div class="auth-divider"><span>Secure account access</span></div>
-          <p class="auth-footnote">Your routine is only available after you sign in.</p>
+          <p class="auth-footnote" id="auth-footnote">Your routine is only available after you sign in.</p>
         </div>
       </div>
     </div>
