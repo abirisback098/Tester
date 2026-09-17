@@ -13,5 +13,5 @@ app.get('/config.js', (_req, res) => {
 });
 
 app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
-app.get('*', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
+app.use((_req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 app.listen(port, '0.0.0.0', () => console.log(`Routine Planner listening on ${port}`));
