@@ -11,94 +11,93 @@
   <title>Routine Planner</title>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand"><span class="brand-mark"></span><span>Routine Planner</span></div>
-    <div class="top-actions">
-      <span id="save-state" class="save-state">Not signed in</span>
-      <button id="auth-btn" class="button button-secondary">Sign in</button>
+  <section id="auth-screen" class="auth-screen" aria-label="Sign in">
+    <div class="auth-layout">
+      <div class="auth-intro">
+        <div class="brand brand-large"><span class="brand-mark"></span><span>Routine Planner</span></div>
+        <div class="auth-copy">
+          <p class="eyebrow">Your week, organized</p>
+          <h1>Welcome to your routine.</h1>
+          <p>Build a schedule that fits your life. Plan each day, adjust time blocks without surprises, and keep your routine synced wherever you use it.</p>
+        </div>
+        <div class="auth-points">
+          <span>Weekly planning</span>
+          <span>Predictable time blocks</span>
+          <span>Automatic saving</span>
+        </div>
+      </div>
+
+      <div class="auth-panel">
+        <div class="auth-card auth-page-card">
+          <div class="auth-card-heading">
+            <p class="eyebrow">Account</p>
+            <h2 id="auth-title">Sign in</h2>
+            <p id="auth-message" class="muted">Sign in to access your routines and keep them synced.</p>
+          </div>
+          <form id="auth-form" class="auth-form">
+            <label>Email<input id="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+            <label>Password<input id="password" type="password" autocomplete="current-password" minlength="6" placeholder="Enter your password" required /></label>
+            <button id="auth-submit" class="button button-primary button-wide" type="submit">Sign in</button>
+          </form>
+          <div class="auth-links">
+            <button id="auth-switch" class="text-button" type="button">Create an account</button>
+            <button id="auth-reset" class="text-button" type="button">Forgot password?</button>
+          </div>
+          <p class="auth-footnote">Your routine stays private to your account.</p>
+        </div>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main class="app-shell">
-    <section class="intro">
-      <div>
-        <p class="eyebrow">Weekly planner</p>
-        <h1>Plan your day, one block at a time.</h1>
-        <p class="intro-copy">Edit times, durations, activities, and reminders. Changes stay predictable: only the next block follows a time change.</p>
+  <div id="planner-app" class="planner-app hidden">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"></span><span>Routine Planner</span></div>
+      <div class="top-actions">
+        <span id="save-state" class="save-state">Saved</span>
+        <button id="auth-btn" class="button button-secondary">Sign out</button>
       </div>
-      <div class="intro-actions">
-        <button id="copy-day" class="button button-secondary" disabled>Copy day</button>
-        <button id="install-btn" class="button button-secondary hidden">Install</button>
-      </div>
-    </section>
+    </header>
 
-    <section class="week-strip" aria-label="Days of week">
-      <div id="days" class="days"></div>
-    </section>
-
-    <section class="planner-panel">
-      <div class="panel-head">
+    <main class="app-shell">
+      <section class="intro">
         <div>
-          <h2 id="day-title">Monday</h2>
-          <p id="day-subtitle">Empty routine. Start at 6:00 AM.</p>
+          <p class="eyebrow">Weekly planner</p>
+          <h1>Plan your day, one block at a time.</h1>
+          <p class="intro-copy">Edit times, durations, activities, and reminders. Changes stay predictable: only the next block follows a time change.</p>
         </div>
-        <div class="panel-actions">
-          <button id="add-block" class="button button-primary" disabled>Add block</button>
+        <div class="intro-actions">
+          <button id="copy-day" class="button button-secondary" disabled>Copy day</button>
+          <button id="install-btn" class="button button-secondary hidden">Install</button>
         </div>
-      </div>
+      </section>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th class="col-time">Time</th>
-              <th class="col-duration">Duration</th>
-              <th>Activity</th>
-              <th>Notes</th>
-              <th class="col-reminder">Reminder</th>
-              <th class="col-actions"><span class="sr-only">Actions</span></th>
-            </tr>
-          </thead>
-          <tbody id="blocks"></tbody>
-        </table>
-        <div id="empty-state" class="empty-state">
-          <strong>Your routine is empty.</strong>
-          <span>Add your first block to begin.</span>
-          <button id="empty-add" class="button button-primary" disabled>Add first block</button>
+      <section class="week-strip" aria-label="Days of week"><div id="days" class="days"></div></section>
+
+      <section class="planner-panel">
+        <div class="panel-head">
+          <div><h2 id="day-title">Monday</h2><p id="day-subtitle">Empty routine. Start at 6:00 AM.</p></div>
+          <div class="panel-actions"><button id="add-block" class="button button-primary" disabled>Add block</button></div>
         </div>
-      </div>
-    </section>
-
-    <section class="help-strip">
-      <div><strong>Scheduling rule</strong><span>Editing a block updates only the block immediately after it.</span></div>
-      <div><strong>Saved automatically</strong><span>Your routine is stored in your account after each change.</span></div>
-    </section>
-  </main>
-
-  <dialog id="auth-dialog" class="dialog">
-    <form method="dialog" id="auth-form" class="auth-card">
-      <button type="button" id="close-auth" class="dialog-close" aria-label="Close">×</button>
-      <p class="eyebrow">Account</p>
-      <h2 id="auth-title">Sign in</h2>
-      <p id="auth-message" class="muted">Use an email and password to save routines across devices.</p>
-      <label>Email<input id="email" type="email" autocomplete="email" required /></label>
-      <label>Password<input id="password" type="password" autocomplete="current-password" minlength="6" required /></label>
-      <button id="auth-submit" class="button button-primary" type="submit">Sign in</button>
-      <button id="auth-switch" class="text-button" type="button">Create an account</button>
-      <button id="auth-reset" class="text-button" type="button">Forgot password?</button>
-    </form>
-  </dialog>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th class="col-time">Time</th><th class="col-duration">Duration</th><th>Activity</th><th>Notes</th><th class="col-reminder">Reminder</th><th class="col-actions"><span class="sr-only">Actions</span></th></tr></thead>
+            <tbody id="blocks"></tbody>
+          </table>
+          <div id="empty-state" class="empty-state"><strong>Your routine is empty.</strong><span>Add your first block to begin.</span><button id="empty-add" class="button button-primary" disabled>Add first block</button></div>
+        </div>
+      </section>
+      <section class="help-strip"><div><strong>Scheduling rule</strong><span>Editing a block updates only the block immediately after it.</span></div><div><strong>Saved automatically</strong><span>Your routine is stored in your account after each change.</span></div></section>
+    </main>
+  </div>
 
   <dialog id="copy-dialog" class="dialog">
     <form method="dialog" id="copy-form" class="auth-card">
       <button type="button" id="close-copy" class="dialog-close" aria-label="Close">×</button>
-      <p class="eyebrow">Copy routine</p>
-      <h2>Copy <span id="copy-source">Monday</span> to</h2>
+      <p class="eyebrow">Copy routine</p><h2>Copy <span id="copy-source">Monday</span> to</h2>
       <label>Destination day<select id="copy-target"></select></label>
       <button class="button button-primary" type="submit">Copy routine</button>
     </form>
   </dialog>
-
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="/config.js"></script>
   <script type="module" src="/app.js"></script>
