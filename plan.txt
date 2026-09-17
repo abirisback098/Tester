@@ -1,127 +1,242 @@
-PROFESSIONAL DAILY ROUTINE & PLANNING SYSTEM
-Version: 1.0
-Status: Editable
+PROFESSIONAL ROUTINE PLANNER — MASTER PLAN
+Version: 2.0
+Status: Working specification
 
 PURPOSE
-This file is the working plan. We can update, replace, add, remove, or reorganize anything here as the routine changes.
+Build a professional, editable routine planner that can grow from a daily routine into a full weekly planning system and later be deployed as a hosted web app and APK-ready Android app.
 
-DAILY ROUTINE
+1. CORE SCHEDULING MODEL
 
-06:30 - Wake up
-- Get out of bed
-- Drink water
-- Wash up
-- Make the bed
+The schedule is made from time blocks.
 
-07:00 - Morning preparation
-- Breakfast
-- Get ready for the day
-- Check today's priorities
+Each block has:
+- Start time
+- Duration
+- End time (calculated)
+- Activity / task name
+- Optional notes
+- Optional notification
 
-08:00 - Main responsibility / Study Block 1
-- Focus on the most important task
-- Keep distractions away
-- Take short breaks when needed
+TIME-UPDATE RULE
+- The user can enter or change a block's start time.
+- The user can enter duration in hours and/or minutes.
+- When a block changes, only the immediately following block's start time is recalculated from that change.
+- Later blocks are NOT automatically shifted.
+- Example:
+  Block 1: 6:13 → 7:30
+  Block 2: 1 hour → automatically becomes 7:30 → 8:30
+  Block 3 remains unchanged until the user edits it.
+- This same rule applies when the duration changes by any number of minutes.
+- Every block remains independently editable.
 
-10:30 - Break
-- Move around
-- Water/snack
-- Reset
+2. DAILY ROUTINE
 
-11:00 - Study Block 2
-- Classes, assignments, practice, or project work
-- Finish one clear task before moving to the next
+Daily routine starts with empty editable blocks so the user can set the activities later.
 
-13:00 - Lunch + Rest
-- Lunch
-- Relax
-- Short screen-free break if possible
+Initial structure:
+- Block 1: 6:00 → [editable]
+- Block 2: [calculated from Block 1] → [editable]
+- Block 3: [independent] → [editable]
+- Additional blocks can be added at any time.
 
-14:00 - Study / Project Block 3
-- Coding / coursework / project work
-- Review difficult topics
-- Complete pending tasks
+No fixed activities should be forced into the initial routine.
 
-16:00 - Personal time
-- Hobby
-- Gaming
-- Friends
-- Relaxation
+3. WEEKLY PLANNING
 
-17:30 - Physical activity
-- Walk, sports, stretching, or another age-appropriate activity
-- Keep it comfortable and sustainable
+Add a weekly layer with:
+- Monday
+- Tuesday
+- Wednesday
+- Thursday
+- Friday
+- Saturday
+- Sunday
 
-18:30 - Reset
-- Shower / freshen up
-- Snack
-- Prepare workspace
+Each day has its own independent schedule.
 
-19:00 - Evening Focus Block
-- Homework
-- Revision
-- Coding/project work
-- Prepare for tomorrow
+Weekly features:
+- Create a daily routine for each day.
+- Copy a routine/template to another day.
+- Modify one day without changing the others.
+- Add or remove rows/blocks freely.
+- Keep the same local time-update rule for every day.
+- Support different routines on different days.
 
-21:00 - Wind-down
-- Finish important tasks
-- Organize desk and materials
-- Check tomorrow's plan
+4. EDITING EXPERIENCE
 
-22:00 - Relax
-- Low-stress activity
-- Reduce stimulating screen use
-- Get ready for sleep
+The interface should make editable values obvious without being visually noisy.
 
-22:30 - Sleep
-- Aim for a consistent bedtime
-- Prioritize enough sleep for your age
+Required editing features:
+- Clear visual indicator for editable times.
+- Easy inline editing.
+- Add row/block action.
+- Delete row/block action.
+- Edit activity and notes.
+- Keyboard-friendly editing.
+- Save changes reliably.
+- Avoid accidental cascading changes.
 
-DAILY PRIORITIES
-1. __________________________________
-2. __________________________________
-3. __________________________________
+5. DATA PERSISTENCE & DEPLOYMENT
 
-TODAY'S TASKS
-[ ] __________________________________
-[ ] __________________________________
-[ ] __________________________________
-[ ] __________________________________
-[ ] __________________________________
+Deployment target:
+- Hosted application on Render.
 
-STUDY / WORK TARGET
-Main goal: ___________________________
-Time target: _________________________
+Persistence requirements:
+- Routine data must survive refreshes and app restarts.
+- Hosted storage should be persistent rather than relying only on browser memory.
+- The design should support access from multiple devices later if needed.
 
-PERSONAL TARGET
-______________________________________
+6. NOTIFICATIONS
 
-END-OF-DAY REVIEW
-What I completed:
-______________________________________
+The planner should support scheduled reminders for routine blocks.
 
-What I need to move to tomorrow:
-______________________________________
+Notification behavior:
+- User can enable a notification for a specific block.
+- User can choose when to notify, such as at the block start or a chosen number of minutes before.
+- Notifications should use the block's current scheduled time.
+- If a block's time changes, its related notification schedule should be updated accordingly.
+- Notifications should continue to work for the Android APK when notification permission is granted.
+- The app should work toward reliable offline reminder delivery on Android for scheduled notifications.
 
-What should change in the routine:
-______________________________________
+Permission requirements:
+- Request Android notification permission when needed.
+- Explain why notifications are requested.
+- Gracefully handle permission being denied.
 
-WEEKLY REVIEW
-What worked:
-______________________________________
+7. APK / ANDROID TARGET
 
-What did not work:
-______________________________________
+The application should be designed so it can later be packaged and distributed as an APK.
 
-Changes for next week:
-______________________________________
+Android priorities:
+- Touch-friendly controls.
+- Responsive layout.
+- Reliable local notification scheduling.
+- Persistent account/routine data through the hosted backend.
+- Clear notification permission flow.
 
-CHANGE LOG
-Date: __________
-Change: ______________________________________________
+8. VISUAL / UI-UX DIRECTION
 
-Date: __________
-Change: ______________________________________________
+Overall goal:
+- Professional
+- Calm
+- Clean
+- Functional
+- Long-term usable
 
-Date: __________
-Change: ______________________________________________
+Preferred visual direction:
+- Neutral/light base background.
+- Neutral cards and surfaces.
+- One restrained accent color, preferably a muted blue.
+- Use spacing, hierarchy, alignment, and typography instead of decorative effects.
+- Subtle visual indication for editable fields.
+- Strong readability and clear states.
+
+Avoid these design patterns:
+1. Purple-to-blue gradients
+2. Gradient hero text
+3. Emojis in headings
+4. Inter font everywhere
+5. Colored border cards
+6. Glassmorphism cards
+7. Low-contrast dark mode
+8. Three icon boxes in a row
+9. Badge above the headline
+10. Lucide icons everywhere
+11. Untouched shadcn UI
+12. Fade-in on scroll
+13. Cursor-following beam
+14. Buttons that only fade on hover
+15. Inconsistent spacing
+16. Em dashes everywhere
+17. Generic buzzword copy
+18. Serif italic accents
+19. Space Grotesk + Instrument Serif combination
+
+Also avoid unnecessary decorative animation, excessive cards, visual clutter, and over-designed dashboards.
+
+9. MOTION / ANIMATION
+
+Use only subtle functional motion.
+
+Allowed examples:
+- Smooth add/remove row transitions.
+- Brief highlight when a block is updated.
+- Small state transitions that help the user understand what changed.
+
+Do NOT use fancy or attention-seeking animation.
+
+10. PLANNER UX PRINCIPLES
+
+- The schedule should feel like a tool, not a marketing page.
+- The user should always understand what can be edited.
+- Changing one block should have predictable effects.
+- Later blocks must not unexpectedly move.
+- Important actions should be easy to find.
+- The interface should remain usable on both desktop and phone screens.
+
+11. FUTURE FEATURES TO CONSIDER
+
+Possible later additions:
+- Routine templates.
+- Duplicate day.
+- Duplicate block.
+- Drag to reorder blocks, while keeping time calculations predictable.
+- Search/filter for tasks.
+- Completion checkbox for routine items.
+- Daily progress indicator.
+- Weekly overview.
+- Export and backup.
+- Import of a saved plan.
+- Optional sign-in and multi-device sync.
+
+12. IMPLEMENTATION PHASES
+
+Phase 1 — Planner foundation
+- Daily time-block editor.
+- Independent time blocks.
+- Immediate-next-block update logic.
+- Add/delete/edit rows.
+
+Phase 2 — Weekly planning
+- Monday-Sunday view.
+- Independent daily routines.
+- Copy routines between days.
+
+Phase 3 — Persistence
+- Render deployment.
+- Persistent backend/database storage.
+- Reliable save/load behavior.
+
+Phase 4 — Notifications
+- Notification settings per block.
+- Android permission flow.
+- Rescheduling when times change.
+
+Phase 5 — APK readiness
+- Responsive mobile UI.
+- Android notification behavior.
+- Packaging/testing for APK distribution.
+
+13. WORKING RULE
+
+This file is the master plan.
+
+We can change it at any time. New requirements should be added here before implementation when practical, so the project remains consistent.
+
+14. CURRENT STATUS
+
+Planning stage.
+
+Confirmed:
+- Daily time-block routine.
+- Editable start times and durations.
+- Only the next block auto-updates.
+- Later blocks remain unaffected until edited.
+- Extra rows/blocks can be added.
+- Weekly planning layer.
+- Subtle functional animations only.
+- Professional neutral visual direction.
+- Render deployment target.
+- Persistent hosted data required.
+- Scheduled notifications required.
+- APK-ready Android direction.
