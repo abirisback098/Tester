@@ -10,19 +10,24 @@
   <link rel="stylesheet" href="/styles.css" />
   <title>Routine Planner</title>
 </head>
-<body>
-  <section id="auth-screen" class="auth-screen" aria-label="Sign in">
+<body class="auth-boot">
+  <section id="auth-screen" class="auth-screen" aria-label="Account access">
     <div class="auth-layout">
       <div class="auth-intro">
-        <div class="brand brand-large"><span class="brand-mark"></span><span>Routine Planner</span></div>
-        <div class="auth-copy">
-          <p class="eyebrow">Your week, organized</p>
-          <h1>Welcome to your routine.</h1>
-          <p>Build a schedule that fits your life. Plan each day, adjust time blocks without surprises, and keep your routine synced wherever you use it.</p>
+        <div class="auth-brand-row">
+          <div class="brand brand-large"><span class="brand-mark"></span><span>Routine Planner</span></div>
+          <span class="auth-secure">Private workspace</span>
         </div>
-        <div class="auth-points">
+        <div class="auth-copy">
+          <p class="eyebrow">A calmer way to plan</p>
+          <h1>Make room for what matters.</h1>
+          <p>Organize your week into clear time blocks, make changes without unexpected shifts, and keep your routine available wherever you sign in.</p>
+          <div class="auth-rule" aria-hidden="true"><span></span><span></span><span></span></div>
+          <p class="auth-note">Your schedule is personal. Your account keeps it in one place.</p>
+        </div>
+        <div class="auth-points" aria-label="Planner features">
           <span>Weekly planning</span>
-          <span>Predictable time blocks</span>
+          <span>Predictable scheduling</span>
           <span>Automatic saving</span>
         </div>
       </div>
@@ -31,19 +36,27 @@
         <div class="auth-card auth-page-card">
           <div class="auth-card-heading">
             <p class="eyebrow">Account</p>
-            <h2 id="auth-title">Sign in</h2>
-            <p id="auth-message" class="muted">Sign in to access your routines and keep them synced.</p>
+            <h2 id="auth-title">Welcome back</h2>
+            <p id="auth-message" class="muted">Sign in to continue to your routine.</p>
           </div>
           <form id="auth-form" class="auth-form">
-            <label>Email<input id="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
-            <label>Password<input id="password" type="password" autocomplete="current-password" minlength="6" placeholder="Enter your password" required /></label>
+            <label for="email">Email address
+              <input id="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required />
+            </label>
+            <label for="password">Password
+              <span class="password-field">
+                <input id="password" type="password" autocomplete="current-password" minlength="6" placeholder="Enter your password" required />
+                <button id="password-toggle" class="password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+              </span>
+            </label>
             <button id="auth-submit" class="button button-primary button-wide" type="submit">Sign in</button>
           </form>
           <div class="auth-links">
             <button id="auth-switch" class="text-button" type="button">Create an account</button>
             <button id="auth-reset" class="text-button" type="button">Forgot password?</button>
           </div>
-          <p class="auth-footnote">Your routine stays private to your account.</p>
+          <div class="auth-divider"><span>Secure account access</span></div>
+          <p class="auth-footnote">Your routine is only available after you sign in.</p>
         </div>
       </div>
     </div>
