@@ -2,10 +2,12 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const cfg = window.__SUPABASE_CONFIG__ || {};
 const supabase = cfg.url && cfg.key ? createClient(cfg.url, cfg.key) : null;
-
 const $ = (id) => document.getElementById(id);
 const form = $('reset-form');
 const submit = $('reset-submit');
+let recoverySession = null;
+let ready = false;
+let errorShown = false;
 
 function toast(text) {
   const el = document.createElement('div');
@@ -16,6 +18,8 @@ function toast(text) {
 }
 
 function showReady() {
+  if (ready) return;
+  ready = true;
   $('reset-title').textContent = 'Set a new password';
   $('reset-message').textContent = 'Enter your new password below.';
   $('reset-footnote').textContent = 'Your new password will be used the next time you sign in.';
@@ -24,6 +28,8 @@ function showReady() {
 }
 
 function showError(message) {
+  if (errorShown) return;
+  errorShown = true;
   $('reset-title').textContent = 'Reset link unavailable';
   $('reset-message').textContent = message;
   $('reset-footnote').textContent = 'Request a new password reset email from the sign-in page.';
@@ -42,8 +48,8 @@ $('password-toggle').onclick = () => {
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
-  if (!supabase) {
-    toast('Account service is not configured.');
+  if (!supabase || !recoverySession) {
+    toast('This reset link is no longer active.');
     return;
   }
 
@@ -54,9 +60,8 @@ form.addEventListener('submit', async (event) => {
 
   submit.disabled = true;
   const { error } = await supabase.auth.updateUser({ password });
-  submit.disabled = false;
-
   if (error) {
+    submit.disabled = false;
     toast(error.message);
     return;
   }
@@ -75,35 +80,35 @@ async function initialize() {
   const query = new URLSearchParams(window.location.search);
   const recovery = hash.get('type') === 'recovery' || query.get('type') === 'recovery';
 
-  let session = null;
+  const recoveryTimer = recovery ? setTimeout(() => {
+    if (!recoverySession) showError('This reset link has expired or has already been used.');
+  }, 6000) : null;
+
   const { data, error } = await supabase.auth.getSession();
   if (error) {
+    if (recoveryTimer) clearTimeout(recoveryTimer);
     showError('We could not open the password reset session.');
     return;
   }
-  session = data.session;
 
-  if (session) {
+  if (data.session) {
+    recoverySession = data.session;
+    if (recoveryTimer) clearTimeout(recoveryTimer);
     showReady();
     return;
   }
 
-  if (recovery) {
-    showError('This reset link has expired or has already been used.');
-    return;
+  if (!recovery) {
+    if (recoveryTimer) clearTimeout(recoveryTimer);
+    showError('Open the password reset link from your email to continue.');
   }
-
-  const timer = setTimeout(() => {
-    if (!session) showError('Open the password reset link from your email to continue.');
-  }, 4000);
-
-  supabase.auth.onAuthStateChange((event, nextSession) => {
-    if (event === 'PASSWORD_RECOVERY' && nextSession) {
-      session = nextSession;
-      clearTimeout(timer);
-      showReady();
-    }
-  });
 }
+
+supabase?.auth.onAuthStateChange((event, session) => {
+  if (event === 'PASSWORD_RECOVERY' && session) {
+    recoverySession = session;
+    showReady();
+  }
+});
 
 initialize();
